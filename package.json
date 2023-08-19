@@ -1,0 +1,11 @@
+{
+  "name": "e-commerce-api",
+  "version": "1.0.0",
+  "description": "A E Commerce api created for as part of coding ninjas assignements",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Gokul Dev P",
+  "license": "ISC"
+}
