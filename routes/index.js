@@ -8,9 +8,9 @@ const router = express.Router();
 const controller = require('../controllers/controller');
 
 
-router.get("/products",controller.displayProducts)
-
-
+router.get("/",controller.displayProducts);
+router.post("/create", controller.createProduct);
+router.post("/:id/update_quantity/?number=10", controller.updateProduct);
 
 
 // Export the router to be used in the main application

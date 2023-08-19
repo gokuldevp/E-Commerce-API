@@ -1,10 +1,15 @@
 const express = require('express');
 const port = process.env.PORT || 8000;
 const db = require('./config/mongoose');
+const bodyParser = require('body-parser');
 
 const app = express()
 
-app.use(express.urlencoded({extended: true}));
+app.use(bodyParser.json());
+
+
+// Use the routes defined in the './routes' file for all incoming requests at the root path ('/').
+app.use('/products', require('./routes'));
 
 
 // Start the server and make it listen on the specified port (8000).

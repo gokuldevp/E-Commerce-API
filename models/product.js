@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 // Define the schema for the 'Product' collection in the database
 const productSchema = mongoose.Schema({
-    name: { type: String, required: true },          // Name of the product
+    name: { type: String, required: true, unique: true },          // Name of the product
     quantity: { type: Number, required: true },      // Quantity of the product available
 }, { timestamps: true });  // Enable automatic timestamp generation for creation and updates
 
