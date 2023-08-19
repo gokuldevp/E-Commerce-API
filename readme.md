@@ -47,7 +47,7 @@ npm start
 * For more information about the API endpoints and their usage, refer to the code documentation and comments.
 
 ## Links
-[github link](https://github.com/gokuldevp/E-Commerce-API)
-[deployment link](https://e-commerce-api-s0eu.onrender.com/)
+* [github link](https://github.com/gokuldevp/E-Commerce-API)
+* [deployment link](https://e-commerce-api-s0eu.onrender.com/)
 
 
