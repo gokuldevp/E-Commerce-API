@@ -8,7 +8,7 @@ const router = express.Router();
 const controller = require('../controllers/controller');
 
 
-router.get("/",controller)
+router.get("/",controller.displayProducts)
 
 
 
