@@ -10,7 +10,8 @@ const controller = require('../controllers/controller');
 
 router.get("/",controller.displayProducts);
 router.post("/create", controller.createProduct);
-router.post("/:id/update_quantity/?number=10", controller.updateProduct);
+
+router.post("/:id/update_quantity/", controller.updateQuantity);
 
 
 // Export the router to be used in the main application
