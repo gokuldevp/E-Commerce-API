@@ -1,7 +1,7 @@
 // Importing the Mongoose library to interact with MongoDB
 const mongoose = require('mongoose');
 
-const connectionString = "mongodb+srv://gokuldevp123:<password>@cluster0.h7zlbuv.mongodb.net/?retryWrites=true&w=majority" || process.env.MONGODB_URI;
+const connectionString = process.env.MONGODB_URI;
 
 // Connecting to the "condial_development" database on the local MongoDB server
 mongoose.connect(connectionString
