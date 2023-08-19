@@ -1,44 +1,58 @@
+const e = require('express');
 const Product = require('../models/product');
 
 
+// Display a list of products from the database
 module.exports.displayProducts = async (req, res) => {
+    // Retrieve all products from the database
     Product.find({})
     .then((products) => {
-        let productList = []
+        // Create an array to hold simplified product data
+        let productList = [];
+
+        // Iterate through each product and create simplified objects
         products.forEach(element => {
+            // Create a simplified product object
             let product = {
-                id: element._id,
-                name: element.name,
-                quantity: element.quantity
-            }
-            productList.push(product)
+                id: element._id,        // Assign the product's ID
+                name: element.name,     // Assign the product's name
+                quantity: element.quantity  // Assign the product's quantity
+            };
+            productList.push(product);   // Add the product to the productList
         });
 
-        
+        // Send a JSON response containing the simplified product list
         return res.status(200).json({
             data: {
-                product: productList,
+                product: productList,   // Include the simplified product list in the response
             },
-        })
+        });
     })
     .catch((error) => {
+        // Handle errors that occur during product retrieval
         return res.status(500).json({
-            error: `Error while finding the product in the database ${error}`,
-        })
+            error: `Error while finding the product in the database: ${error}`,
+        });
     })
-}
+};
 
 
+
+// Create a new product in the database
 exports.createProduct = async (req, res) => {
-    const newProduct = req.body.product
+    // Extract the new product details from the request body
+    const newProduct = req.body.product;
 
-    Product.findOne({name: req.body.product.name})
+    // Check if a product with the same name already exists
+    Product.findOne({ name: req.body.product.name })
     .then((product) => {
-        if(product){
-            return res.status(301).json({
-                error: `${req.body.product.name} already exists`,
-            })
+        // If a product with the same name exists
+        if (product) {
+            return res.status(200).json({
+                message: `${req.body.product.name} already exists in the database!!`,
+            });
         } else {
+            // If a product with the same name doesn't exist, create it
             Product.create(newProduct)
             .then((product) => {
                 return res.status(200).json({
@@ -48,58 +62,92 @@ exports.createProduct = async (req, res) => {
                             quantity: product.quantity
                         },
                     },
-                })
+                });
             })
             .catch((error) => {
+                // Handle errors that occur during product creation
                 return res.status(500).json({
                     error: `An error occurred while creating the product. ${error}`,
                 });
-            })
+            });
         }
     })
     .catch((error) => {
+        // Handle errors that occur during product lookup
         return res.status(500).json({
             error: `Error while finding the product in the database ${error}`,
-        })
-    })
+        });
+    });
 };
 
 
-module.exports.updateQuantity = async (req, res) => {
-    const _id = req.params.id;
-    const quantity = parseInt(req.query.number);
-    Product.findOneAndUpdate({_id},{quantity}, { new: true })
-    .then((product) => {
-        if(product) {
 
-            let productDetails = {
+// Update the quantity of a product in the database
+module.exports.updateQuantity = async (req, res) => {
+    // Extract the product ID and quantity from request parameters and query
+    const _id = req.params.id;                // Get the product's ID from the URL parameter
+    const quantity = parseInt(req.query.number);  // Get the updated quantity from the query parameter
+
+    // Find and update the product's quantity
+    Product.findOneAndUpdate({ _id }, { quantity }, { new: true })
+    .then((product) => {
+        let productDetails = [];
+        let message = "Product not available in the database!";
+
+        // If the product exists and was updated successfully
+        if (product) {
+            // Create an object with updated product details
+            productDetails = {
                 id: product._id,
                 name: product.name,
                 quantity: product.quantity
-            }
-            return res.status(200).json({
-                data: {
-                    product: productDetails,
-                    message: "updated successfully"
-                }
-            });
-        } else {
-            return res.status(200).json({
-                data: {
-                    product: [],
-                    message: "Product not available in the database!"
-                }
-            }); 
+            };
+            message = "updated successfully";
         }
+
+        // Send a JSON response with updated product details and message
+        return res.status(200).json({
+            data: {
+                product: productDetails,   // Include updated product details
+                message: message           // Include the update message
+            }
+        });
     })
     .catch((error) => {
+        // Handle errors that occur during finding and updating the product
         return res.status(500).json({
-            error: `Error while finding and updating the quality in the database ${error}`,
-        })
-    })
-}
+            error: `Error while finding and updating the quantity in the database: ${error}`,
+        });
+    });
+};
 
+
+// Delete a product from the database
 module.exports.deleteProduct = async (req, res) => {
+    // Extract the product ID from the request parameter
     const _id = req.params.id;
-    res.send(_id);
-}
+
+    // Find and delete the product by ID
+    Product.findOneAndDelete({ _id })
+    .then((product) => {
+        let message = "No product to delete in the database";
+
+        // If a product was found and deleted
+        if (product) {
+            message = "Product deleted";
+        }
+
+        // Send a JSON response with the deletion message
+        return res.status(200).json({
+            data: {
+                message: message  // Include the deletion message
+            }
+        });
+    })
+    .catch((error) => {
+        // Handle errors that occur during finding and deleting the product
+        return res.status(500).json({
+            error: `Error while deleting item from the database: ${error}`,
+        });
+    });
+};

@@ -1,7 +1,7 @@
 // Importing the Mongoose library to interact with MongoDB
 const mongoose = require('mongoose');
 
-const connectionString = process.env.MONGODB_URI || "";
+const connectionString = process.env.MONGODB_URI;
 
 // Connecting to the "condial_development" database on the local MongoDB server
 mongoose.connect(connectionString
