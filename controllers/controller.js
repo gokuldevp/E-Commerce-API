@@ -23,9 +23,7 @@ module.exports.displayProducts = async (req, res) => {
 
         // Send a JSON response containing the simplified product list
         return res.status(200).json({
-            data: {
-                product: productList,   // Include the simplified product list in the response
-            },
+            product: productList,   // Include the simplified product list in the response
         });
     })
     .catch((error) => {
@@ -56,12 +54,10 @@ exports.createProduct = async (req, res) => {
             Product.create(newProduct)
             .then((product) => {
                 return res.status(200).json({
-                    data: {
                         product: {
                             name: product.name,
                             quantity: product.quantity
                         },
-                    },
                 });
             })
             .catch((error) => {
@@ -107,10 +103,8 @@ module.exports.updateQuantity = async (req, res) => {
 
         // Send a JSON response with updated product details and message
         return res.status(200).json({
-            data: {
                 product: productDetails,   // Include updated product details
                 message: message           // Include the update message
-            }
         });
     })
     .catch((error) => {
@@ -139,9 +133,7 @@ module.exports.deleteProduct = async (req, res) => {
 
         // Send a JSON response with the deletion message
         return res.status(200).json({
-            data: {
                 message: message  // Include the deletion message
-            }
         });
     })
     .catch((error) => {
